@@ -17,8 +17,7 @@ const CreateCourse = () => {
     
         try {
             // Use the createCourse function from the UserContext
-            const newCourse = await actions.createCourse(course);
-    
+            const newCourse = await actions.createCourse(course, authUser.username, authUser.password);
             // If the course was successfully created, redirect to the course detail page
             navigate.push(`/courses/${newCourse.id}`);
         } catch (error) {
@@ -41,13 +40,13 @@ const CreateCourse = () => {
                         <form onSubmit={handleSubmit}>
                             <div className="main--flex">
                                 <div>
-                                    <label htmlFor="courseTitle">Course Title</label>
-                                    <input id="courseTitle" name="courseTitle" type="text" onChange={handleInputChange}></input>
+                                    <label htmlFor="title">Course Title</label>
+                                    <input id="title" name="title" type="text" onChange={handleInputChange}></input>
 
                                     <p>By {authUser.firstName} {authUser.lastName}</p>
 
-                                    <label htmlFor="courseDescription">Course Description</label>
-                                    <textarea id="courseDescription" name="courseDescription" onChange={handleInputChange}></textarea>
+                                    <label htmlFor="description">Course Description</label>
+                                    <textarea id="description" name="description" onChange={handleInputChange}></textarea>
                                 </div>
                                 <div>
                                     <label htmlFor="estimatedTime">Estimated Time</label>

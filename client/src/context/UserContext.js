@@ -15,6 +15,7 @@ const signIn = async (credentials) => {
     const response = await api("/users", "GET", null, credentials);
     if (response.status === 200) {
         const user = await response.json();
+        user.password = credentials.password;
         setAuthUser(user);
         Cookies.set("authenticatedUser", JSON.stringify(user), {expires: 1})
         return user;
@@ -35,8 +36,8 @@ const signUp = async (user) => {
     }
 }
 
-const createCourse = async (course) => {
-    const response = await api('/courses', 'POST', course);
+const createCourse = async (course, username, password) => {
+    const response = await api('/courses', 'POST', course, true, { username, password });
     if (response.status === 201) {
         return response.json();
     } else {
