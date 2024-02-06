@@ -1,0 +1,90 @@
+import React, { useContext } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import UserContext from '../context/UserContext';
+import { api } from '../utils/apiHelper';
+
+const UserSignUp = () => {
+    const { actions } = useContext(UserContext);
+    const navigate = useNavigate();
+
+
+    // State
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [emailAddress, setEmailAddress] = useState("");
+    const [password, setPassword] = useState("");
+
+    // event handlers
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const user = {
+            firstName,
+            lastName,
+            emailAddress,
+            password,
+        };
+
+        try {
+            const success = await actions.signUp(user);
+            if (success) {
+                console.log(`${firstName} ${lastName} is successfully signed up`);
+                navigate("/signin"); // navigate to sign in page
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const handleCancel = (event) => {
+        event.preventDefault();
+        navigate('/');
+    }
+
+    return (
+                <div className="form--centered">
+                    <h2>Sign Up</h2>
+                    <div>
+                        <form onSubmit={handleSubmit}>
+                            <label htmlFor="firstName">First Name</label>
+                            <input
+                                id="firstName"
+                                name="firstName"
+                                type="text"
+                                value={firstName}
+                                onChange={(event) => setFirstName(event.target.value)}
+                            />
+                            <label htmlFor="lastName">Last Name</label>
+                            <input
+                                id="lastName"
+                                name="lastName"
+                                type="text"
+                                value={lastName}
+                                onChange={(event) => setLastName(event.target.value)}
+                            />
+                            <label htmlFor="emailAddress">Email Address</label>
+                            <input
+                                id="emailAddress"
+                                name="emailAddress"
+                                type="email"
+                                value={emailAddress}
+                                onChange={(event) => setEmailAddress(event.target.value)}
+                            />
+                            <label htmlFor="password">Password</label>
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
+                            />
+                            <button className="button" type="submit">Sign Up</button>
+                            <button className="button button-secondary" onClick={handleCancel}>Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            );
+        }
+
+        export default UserSignUp;
