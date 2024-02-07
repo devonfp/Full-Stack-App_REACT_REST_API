@@ -19,7 +19,6 @@ function CourseDetail() {
   const { authUser } = useContext(UserContext);
 
 
-
   // We use the useEffect hook to fetch the courses from the API.
   useEffect(() => {
     fetch(`http://localhost:5000/api/courses/${id}`)
@@ -37,14 +36,19 @@ function CourseDetail() {
 
 
   const handleDelete = async (event) => {
+    const username = authUser.username; 
+    const password = authUser.password;
+    const encodedCredentials = btoa(`${username}:${password}`);
+
     const response = await fetch(`http://localhost:5000/api/courses/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Basic ${encodedCredentials}` // Use Basic Authentication
       },
     });
     if (response.status === 204) {
-      console.log(`${course.name} is successfully deleted`);
+      console.log(`${course.title} is successfully deleted`);
       navigate("/");
     } else {
       throw new Error();
@@ -54,9 +58,8 @@ function CourseDetail() {
 
 
   const handleUpdate = (event) => {
-    useNavigate.push(`/courses/${course.id}/update`);
+    navigate(`/courses/${course.id}/update`);
   };
-
 
 
 
@@ -65,12 +68,14 @@ function CourseDetail() {
     }*/
 
   console.log(course);
+  console.log(authUser);
+
 
   return (
     <main>
       <div className="actions--bar">
         <div className="wrap">
-        {authUser && authUser.id === course.id &&
+        {authUser && authUser.id === course.userId &&
     <>
         <a className="button" onClick={handleUpdate}>Update Course</a>
         <a className="button" onClick={handleDelete}>Delete Course</a>
@@ -86,7 +91,7 @@ function CourseDetail() {
           <div>
             <h3 className="course--detail--title">Course</h3>
             <h4 className="course--name">{course.title}</h4>
-            <p>By {course.author}</p>
+            <p>By {course.user && `${course.user.firstName} ${course.user.lastName}`}</p>
             <p>{course.description}</p>
           </div>
           <div>

@@ -37,10 +37,11 @@ const signUp = async (user) => {
 }
 
 const createCourse = async (course, username, password) => {
-    const response = await api('/courses', 'POST', course, true, { username, password });
+    const response = await api('/courses', 'POST', course, { username, password });
+    console.log(response)  
     if (response.status === 201) {
-        return response.json();
-    } else {
+        return response.json(); 
+} else {
         console.error(`Error status: ${response.status}`);
         console.error(`Response body: ${await response.text()}`);
         throw new Error("Something went wrong");

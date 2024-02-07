@@ -10,16 +10,17 @@ import { useNavigate } from "react-router-dom";
 const CreateCourse = () => {
     const { authUser, actions } = useContext(UserContext);
     const navigate = useNavigate();
-    const [course, setCourse] = useState({ title: '', description: '', estimatedTime: '', materialsNeeded: '' });
+    const [course, setCourse] = useState({ title: '', description: '', estimatedTime: '', materialsNeeded: '', userId: authUser.userId 
+});
     
     const handleSubmit = async (e) => {
         e.preventDefault(); // prevent the default form submission behavior
     
         try {
             // Use the createCourse function from the UserContext
-            const newCourse = await actions.createCourse(course, authUser.username, authUser.password);
-            // If the course was successfully created, redirect to the course detail page
-            navigate.push(`/courses/${newCourse.id}`);
+            const newCourse = await actions.createCourse(course, authUser.username, authUser.password);         
+             // If the course was successfully created, redirect to the course detail page
+            navigate(`/courses/${newCourse.id}`);
         } catch (error) {
             // Handle errors here
             console.error(`Error creating course: ${error.message}`);
