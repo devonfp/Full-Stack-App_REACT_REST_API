@@ -1,21 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'; 
+import { useParams } from 'react-router-dom'; // // Gets the course id from the URL
 import { useNavigate } from 'react-router-dom';
-import { api } from '../utils/apiHelper';
 import { Link } from 'react-router-dom';
-import { useContext } from "react";
+import ReactMarkdown from'react-markdown';
+
+//Passes user information down without using "Context.Consumer" or "props"
+import { useContext } from "react"; 
 import UserContext from "../context/UserContext";
 
 
-import { useParams } from 'react-router-dom';
+
 
 
 
 // Code below from Github Copilot
 
+// This function fetches a specific course id from the API(lines 26-36) and displays them(lines 26-38).
+// It also creates the update/delete buttons(lines 48-69) and renders a detailed view of the specific course.
 function CourseDetail() {
   const [course, setCourse] = useState([]); // We initialize the courses state to an empty array.
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id } = useParams(); 
   const { authUser } = useContext(UserContext);
 
 
@@ -30,25 +35,28 @@ function CourseDetail() {
       })
       .then(data => setCourse(data))
       .catch(error => console.log('There was a problem getting the courses:', error));
-  }, []);
+  }, [id]);
 
 
 
-
+// Delete Button
   const handleDelete = async (event) => {
-    const username = authUser.username; 
+
+    // Server identifies the user to make sure they are the owner of the course before deletion.
+    const username = authUser.username;
     const password = authUser.password;
     const encodedCredentials = btoa(`${username}:${password}`);
 
+    // Server deletes the course and redirectes to home screen.
     const response = await fetch(`http://localhost:5000/api/courses/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Basic ${encodedCredentials}` // Use Basic Authentication
+        'Authorization': `Basic ${encodedCredentials}`
       },
     });
     if (response.status === 204) {
-      console.log(`${course.title} is successfully deleted`);
+      //console.log(`${course.title} is successfully deleted`);
       navigate("/");
     } else {
       throw new Error();
@@ -56,31 +64,29 @@ function CourseDetail() {
   };
 
 
-
+// Update button takes user to update course page.
   const handleUpdate = (event) => {
     navigate(`/courses/${course.id}/update`);
   };
 
 
-
-  /*  if (!course) {
-      return <div>Loading...</div>;
-    }*/
-
-  console.log(course);
-  console.log(authUser);
+  //console.log(course.user);
+  //console.log(authUser.userId);
 
 
   return (
     <main>
       <div className="actions--bar">
         <div className="wrap">
-        {authUser && authUser.id === course.userId &&
-    <>
-        <a className="button" onClick={handleUpdate}>Update Course</a>
-        <a className="button" onClick={handleDelete}>Delete Course</a>
-    </>
-}
+
+          {/* checks if the currently authenticated user is the creator or owner of the current course. 
+        If so, the update/delete buttons are rendered. */}
+          {authUser && course && course.user && authUser.userId === course.user.id &&
+            <>
+              <button className="button" onClick={handleUpdate}>Update Course</button>
+              <button className="button" onClick={handleDelete}>Delete Course</button>
+            </>
+          }
           <Link className="button button-secondary" to="/">Return to List</Link>
         </div>
       </div>
@@ -92,14 +98,14 @@ function CourseDetail() {
             <h3 className="course--detail--title">Course</h3>
             <h4 className="course--name">{course.title}</h4>
             <p>By {course.user && `${course.user.firstName} ${course.user.lastName}`}</p>
-            <p>{course.description}</p>
+            <ReactMarkdown>{course.description}</ReactMarkdown>
           </div>
           <div>
             <h3 className="course--detail--title">Estimated Time</h3>
             <p>{course.estimatedTime}</p>
             <h3 className="course--detail--title">Materials Needed</h3>
             <ul className="course--detail--list">
-              <li>{course.materialsNeeded}</li>
+            <ReactMarkdown>{course.materialsNeeded}</ReactMarkdown>
             </ul>
           </div>
         </div>
@@ -109,14 +115,3 @@ function CourseDetail() {
 }
 
 export default CourseDetail;
-
-
-
-//  {authUser === null ?
-//<>
-//</>
-//:
-//<>
- // <a className="button" onClick={handleUpdate}>Update Course</a>
- // <a className="button" onClick={handleDelete}>Delete Course</a>
-//</> } 

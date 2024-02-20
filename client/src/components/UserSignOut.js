@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import  UserContext, { UserProvider }  from "../context/UserContext";
+import  UserContext  from "../context/UserContext";
 import { Navigate } from "react-router-dom";
 
 const UserSignOut = () => {
