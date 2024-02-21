@@ -22,7 +22,7 @@ const UserSignUp = () => {
         event.preventDefault();
 
 
-        // Validation errors. From Github Copilot
+        // Validation errors. Created with Copilot
         const errors = [];
 
         if (!firstName) {

@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 import ErrorsDisplay from "./ErrorsDisplay";
 
 
-// This function stores state variables to react to user input (lines 16-23). 
-//Gives the "Create Course button it's functionality (lines 28-67). Handles input changes (lines 73-76).
-// Renders the entire page (lines 77-107)
+// This function stores state variables to react to user input
+//Gives the "Create Course button it's functionality
+// Handles input changes
+// Renders the entire page
 const CreateCourse = () => {
     // actions gives us access to the createCourse function from the UserContext
     const { authUser, actions } = useContext(UserContext);

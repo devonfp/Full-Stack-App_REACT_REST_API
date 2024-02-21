@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 
-// This function fetches courses from the API(lines 6-22) and displays them(lines 26-48).
+// Code created with Copilot
+// This function fetches courses from the API and displays them.
 function Courses() {
     const [courses, setCourses] = useState([]); // We initialize the courses state to an empty array.
 

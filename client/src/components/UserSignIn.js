@@ -5,7 +5,6 @@ import ErrorsDisplay from './ErrorsDisplay';
 
 
 
-
 const UserSignIn = () => {
   const { actions } = useContext(UserContext);
   const navigate = useNavigate();
@@ -52,7 +51,7 @@ const UserSignIn = () => {
 
 
     // If the sign-in is successful, it navigates to the page the user was at previously.
-    // Code from Copilot
+    // Created with Copilot
     try {
       const user = await actions.signIn(credentials);
       if (user === null) {

@@ -10,13 +10,9 @@ import UserContext from "../context/UserContext";
 
 
 
-
-
-
-// Code below from Github Copilot
-
-// This function fetches a specific course id from the API(lines 26-36) and displays them(lines 26-38).
-// It also creates the update/delete buttons(lines 48-69) and renders a detailed view of the specific course.
+// Code created with Copilot
+// This function fetches a specific course id from the API and displays them
+// It also creates the update/delete buttons and renders a detailed view of the specific course.
 function CourseDetail() {
   const [course, setCourse] = useState([]); // We initialize the courses state to an empty array.
   const navigate = useNavigate();
@@ -34,7 +30,8 @@ function CourseDetail() {
         return response.json();
       })
       .then(data => setCourse(data))
-      .catch(error => console.log('There was a problem getting the courses:', error));
+      .catch(error =>  console.log('There was a problem getting the courses:', error)
+      );
   }, [id]);
 
 

@@ -1,4 +1,4 @@
-// Code from Github Copilot
+// Code created with Github Copilot
 
 import React, { useState } from "react";
 import { useContext, useEffect } from "react";
@@ -8,11 +8,11 @@ import { useParams } from 'react-router-dom';
 import ErrorsDisplay from "./ErrorsDisplay";
 
 
-// This function stores state variables to react to user input (lines 23-30)
-// Fetches course detail (35-45)
-//Handles input changes (lines 50-53)
-//Gives the "Update Course button it's functionality (lines 55-98)
-// Renders the entire page (lines 102-132)
+// - This function stores state variables to react to user input 
+// - Fetches course detail 
+//- Handles input changes 
+//- Gives the "Update Course button it's functionality 
+// - Renders the entire page
 const UpdateCourse = () => {
     const navigate = useNavigate();
     const { authUser } = useContext(UserContext);
