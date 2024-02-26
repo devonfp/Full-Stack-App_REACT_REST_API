@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import { useContext } from "react";
 import UserContext from "../context/UserContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ErrorsDisplay from "./ErrorsDisplay";
-
+import { api } from "../utils/apiHelper";
 
 // This function stores state variables to react to user input
 //Gives the "Create Course button it's functionality
@@ -12,7 +12,9 @@ import ErrorsDisplay from "./ErrorsDisplay";
 // Renders the entire page
 const CreateCourse = () => {
     // actions gives us access to the createCourse function from the UserContext
-    const { authUser, actions } = useContext(UserContext);
+    const { authUser } = useContext(UserContext);
+    const username = authUser.username;
+    const password = authUser.password;
     const navigate = useNavigate();
 
     // State variables allow the application to react to user input and changes in real-time. 
@@ -24,6 +26,8 @@ const CreateCourse = () => {
         materialsNeeded: '',
         userId: authUser.userId
     });
+
+
 
 
     // This function is triggered when the user clicks the "Create Course" button.
@@ -55,20 +59,22 @@ const CreateCourse = () => {
                 }*/
 
 
-        // If there are no errors, the function executes and we can create the course
+
+        // This try/catch block calls the API to create a new course.
         try {
-            // Use the createCourse function from the UserContext
-            const newCourse = await actions.createCourse(course, authUser.username, authUser.password);
-            // If the course was successfully created, redirect to the course detail page
-            navigate(`/courses/${newCourse.id}`);
+            const response = await api('/courses', 'POST', course, { username, password });
+            if (response.status === 201) {
+                // If the course was successfully created, redirect to the course detail page
+                navigate(`/courses/${response.data.id}`);
+            }
         } catch (error) {
+            console.log(error)
             if (error.response && error.response.status === 400) {
-                //console.log(error.response.data);    
-                setErrors(errors); // Add this line
-                return;
+                console.error(`Error status: ${error.response.status}`);
+                console.error(`Response body: ${await error.response.text()}`);
             }
         }
-    };
+    }
 
 
     // Updates course state variables when the user types in the input fields.

@@ -36,7 +36,7 @@ const signUp = async (user) => {
     }
 }
 
-const createCourse = async (course, username, password) => {
+/*const createCourse = async (course, username, password) => {
     const response = await api('/courses', 'POST', course, { username, password });
     console.log(response)  
     if (response.status === 201) {
@@ -45,7 +45,7 @@ const createCourse = async (course, username, password) => {
         console.error(`Error status: ${response.status}`);
         console.error(`Response body: ${await response.text()}`);
     }
-}
+}*/
 
 // We create a new React component that will be used as a provider for the context object.
 const signOut = () => {
@@ -61,8 +61,8 @@ return (
           signIn, 
           signUp,
           signOut,
-          createCourse
-        }
+/*          createCourse
+*/        }
       }}>
         {props.children}
       </UserContext.Provider>
