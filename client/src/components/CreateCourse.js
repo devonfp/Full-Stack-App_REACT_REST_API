@@ -68,7 +68,6 @@ const CreateCourse = () => {
                 navigate(`/courses/${response.data.id}`);
             }
         } catch (error) {
-            console.log(error)
             if (error.response && error.response.status === 400) {
                 console.error(`Error status: ${error.response.status}`);
                 console.error(`Response body: ${await error.response.text()}`);
