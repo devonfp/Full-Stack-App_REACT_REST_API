@@ -44,7 +44,6 @@ const createCourse = async (course, username, password) => {
 } else {
         console.error(`Error status: ${response.status}`);
         console.error(`Response body: ${await response.text()}`);
-        throw new Error("Something went wrong");
     }
 }
 

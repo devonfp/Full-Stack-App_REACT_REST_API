@@ -16,7 +16,7 @@ const CreateCourse = () => {
     const navigate = useNavigate();
 
     // State variables allow the application to react to user input and changes in real-time. 
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState([]);
     const [course, setCourse] = useState({
         title: '',
         description: '',
@@ -30,28 +30,29 @@ const CreateCourse = () => {
     const handleSubmit = async (e) => {
         e.preventDefault(); // prevents the default form submission behavior
 
-        // Validation errors
-        const errors = [];
+        /*
+                // Validation errors
+                const errors = [];
+                
+                if (!course.title) {
+                    errors.push('Please provide a value for "Title"');
+                }
         
-        if (!course.title) {
-            errors.push('Please provide a value for "Title"');
-        }
-
-        if (!course.description) {
-            errors.push('Please provide a value for "Description"');
-        }
-        if (!course.estimatedTime) {
-            errors.push('Please provide a value for "Estimated Time"');
-        }
-        if (!course.materialsNeeded) {
-            errors.push('Please provide a value for "Materials Needed"');
-        }
-
-        if (errors.length > 0) {
-            // If there are errors, we stop the execution of the function here and set the errors to state
-            setErrors(errors);
-            return;
-        }
+                if (!course.description) {
+                    errors.push('Please provide a value for "Description"');
+                }
+                if (!course.estimatedTime) {
+                    errors.push('Please provide a value for "Estimated Time"');
+                }
+                if (!course.materialsNeeded) {
+                    errors.push('Please provide a value for "Materials Needed"');
+                }
+        
+                if (errors.length > 0) {
+                    // If there are errors, we stop the execution of the function here and set the errors to state
+                    setErrors(errors);
+                    return;
+                }*/
 
 
         // If there are no errors, the function executes and we can create the course
@@ -61,16 +62,16 @@ const CreateCourse = () => {
             // If the course was successfully created, redirect to the course detail page
             navigate(`/courses/${newCourse.id}`);
         } catch (error) {
-
-            // Handle errors here
-            setErrors(error.response.data);
-            console.error(`Error creating course: ${error.message}`);
+            if (error.response && error.response.status === 400) {
+                //console.log(error.response.data);    
+                setErrors(errors); // Add this line
+                return;
+            }
         }
     };
 
 
-
-// Updates course state variables when the user types in the input fields.
+    // Updates course state variables when the user types in the input fields.
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setCourse(prevCourse => ({ ...prevCourse, [name]: value }));
