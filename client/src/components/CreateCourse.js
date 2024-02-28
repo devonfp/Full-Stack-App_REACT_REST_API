@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useContext } from "react";
 import UserContext from "../context/UserContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ErrorsDisplay from "./ErrorsDisplay";
 import { api } from "../utils/apiHelper";
 
@@ -61,17 +61,19 @@ const CreateCourse = () => {
 
 
         // This try/catch block calls the API to create a new course.
+        let response;
         try {
-            const response = await api('/courses', 'POST', course, { username, password });
+            response = await api('/courses', 'POST', course, { username, password });
             if (response.status === 201) {
-                // If the course was successfully created, redirect to the course detail page
                 navigate(`/courses/${response.data.id}`);
+            } else if (response.status === 400) {
+                const data = await response.json();
+                setErrors(data.errors);
+                console.log(data);
             }
         } catch (error) {
-            if (error.response && error.response.status === 400) {
-                console.error(`Error status: ${error.response.status}`);
-                console.error(`Response body: ${await error.response.text()}`);
-            }
+            console.error(error);
+            setErrors([error.message]); // Set the errors state to the error message
         }
     }
 
