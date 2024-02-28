@@ -21,10 +21,4 @@ export const api = (
         options.headers.Authorization = `Basic ${encodedCredentials}`;
     }
     return fetch(url, options)
-    .then(response => {
-        if (!response.ok) {
-            return response.json().then(err => {throw err;});
-        }
-        return response.json();
-    });
 };
