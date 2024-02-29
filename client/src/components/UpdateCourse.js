@@ -56,7 +56,7 @@ const UpdateCourse = () => {
     const handleUpdate = async (e) => {
         e.preventDefault(); 
 
-        // Checks if all the required fields are filled in.
+/*        // Checks if all the required fields are filled in.
         // If not, it adds the appropriate error messages to the errors state variable and stops execution. 
         const errors = [];
         if (!course.title) {
@@ -77,7 +77,7 @@ const UpdateCourse = () => {
             // If there are errors, we stop the execution of the function here and set the errors to state
             setErrors(errors);
             return;
-        }
+        }*/
         const username = authUser.username; 
         const password = authUser.password; 
         const encodedCredentials = btoa(`${username}:${password}`);
@@ -90,12 +90,19 @@ const UpdateCourse = () => {
             },
             body: JSON.stringify(course)
         });
+        try {
         if (response.status === 204) {
             navigate(`/courses/${id}`);
-        } else {
-            throw new Error();
+        } else if (response.status === 400) {
+            const data = await response.json();
+            setErrors(data.errors);
+            console.log(data);
         }
-    };
+    } catch (error) {
+        console.error(error);
+        setErrors([error.message]); // Set the errors state to the error message
+    }
+}
 
 
 

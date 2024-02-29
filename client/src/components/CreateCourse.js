@@ -65,7 +65,8 @@ const CreateCourse = () => {
         try {
             response = await api('/courses', 'POST', course, { username, password });
             if (response.status === 201) {
-                navigate(`/courses/${response.data.id}`);
+                response = await response.json(); // Parse the response
+                navigate(`/courses/${response.id}`);
             } else if (response.status === 400) {
                 const data = await response.json();
                 setErrors(data.errors);

@@ -5,15 +5,12 @@ const bcrypt = require('bcryptjs');
 
 
 module.exports = (sequelize) => {
-  class User extends Model {}
+  class User extends Model { }
   User.init({
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notNull: {
-          msg: 'First name is required'
-        },
         notEmpty: {
           msg: 'Please provide a name'
         }
@@ -23,9 +20,6 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notNull: {
-          msg: 'A last name is required'
-        },
         notEmpty: {
           msg: 'Please provide a last name'
         }
@@ -36,42 +30,37 @@ module.exports = (sequelize) => {
       allowNull: false,
       unique: true,
       validate: {
-      notNull: {
-        msg: 'An email is required'
-      },
-      notEmpty: {
-        msg: 'Please provide an email address'
-      },
-     }
+        notEmpty: {
+          msg: 'Please provide an email address'
+        },
+      }
     },
     password: {
-      type: DataTypes.STRING,  
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notNull: {
-          msg: 'A password is required'
-        },
         notEmpty: {
           msg: 'Please provide a password'
         },
         len: {
           args: [6, 100],
+          msg: 'Password must be between 6 and 100 characters'
         },
       },
       set(val) {
         console.log('Password before hashing:', val);
-          const hashedPassword = bcrypt.hashSync(val, 10);
-          console.log('Hashed password:', hashedPassword);
-          this.setDataValue('password', hashedPassword);
-        },
-      }
+        const hashedPassword = bcrypt.hashSync(val, 10);
+        console.log('Hashed password:', hashedPassword);
+        this.setDataValue('password', hashedPassword);
+      },
+    }
   }, { sequelize });
- 
- User.associate = (models) => {
-  User.hasMany(models.Course, {
-    as: 'courses',
-    foreignKey: { fieldName: 'userId'},
-  });
-};
+
+  User.associate = (models) => {
+    User.hasMany(models.Course, {
+      as: 'courses',
+      foreignKey: { fieldName: 'userId' },
+    });
+  };
   return User;
 };
