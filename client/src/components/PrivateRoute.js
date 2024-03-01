@@ -6,12 +6,11 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 const PrivateRoute = () => {
     const { authUser } = useContext(UserContext);
     const location = useLocation();
-    console.log(location);
 
     if (authUser) {
         return <Outlet />
     } else {
-        return <Navigate to="/signin" state={{from: location.pathname}}/>
+        return <Navigate to="/signin" state={{ from: location.pathname }} />
     }
 }
 

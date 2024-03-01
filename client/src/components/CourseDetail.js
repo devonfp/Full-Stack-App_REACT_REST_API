@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react'; 
-import { useParams } from 'react-router-dom'; // // Gets the course id from the URL
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import ReactMarkdown from'react-markdown';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom'; // useParams Gets the course id from the URL
+import ReactMarkdown from 'react-markdown';
 
 //Passes user information down without using "Context.Consumer" or "props"
-import { useContext } from "react"; 
+import { useContext } from "react";
 import UserContext from "../context/UserContext";
 
 
@@ -16,7 +14,7 @@ import UserContext from "../context/UserContext";
 function CourseDetail() {
   const [course, setCourse] = useState([]); // We initialize the courses state to an empty array.
   const navigate = useNavigate();
-  const { id } = useParams(); 
+  const { id } = useParams();
   const { authUser } = useContext(UserContext);
 
 
@@ -30,13 +28,13 @@ function CourseDetail() {
         return response.json();
       })
       .then(data => setCourse(data))
-      .catch(error =>  console.log('There was a problem getting the courses:', error)
+      .catch(error => console.log('There was a problem getting the courses:', error)
       );
   }, [id]);
 
 
 
-// Delete Button
+  // Delete Button
   const handleDelete = async (event) => {
 
     // Server identifies the user to make sure they are the owner of the course before deletion.
@@ -53,7 +51,6 @@ function CourseDetail() {
       },
     });
     if (response.status === 204) {
-      //console.log(`${course.title} is successfully deleted`);
       navigate("/");
     } else {
       throw new Error();
@@ -61,7 +58,7 @@ function CourseDetail() {
   };
 
 
-// Update button takes user to update course page.
+  // Update button takes user to update course page.
   const handleUpdate = (event) => {
     navigate(`/courses/${course.id}/update`);
   };
@@ -102,7 +99,7 @@ function CourseDetail() {
             <p>{course.estimatedTime}</p>
             <h3 className="course--detail--title">Materials Needed</h3>
             <ul className="course--detail--list">
-            <ReactMarkdown>{course.materialsNeeded}</ReactMarkdown>
+              <ReactMarkdown>{course.materialsNeeded}</ReactMarkdown>
             </ul>
           </div>
         </div>

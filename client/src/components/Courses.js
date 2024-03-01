@@ -16,7 +16,7 @@ function Courses() {
                 return response.json();
             })
             .then(data => {
-                console.log('Data from API:', data); // Add this line
+                console.log('Data from API:', data);
                 setCourses(data);
             })
             .catch(error => console.log('There was a problem getting the courses:', error));

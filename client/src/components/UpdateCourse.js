@@ -1,10 +1,8 @@
 // Code created with Github Copilot
 
-import React, { useState } from "react";
-import { useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import UserContext from "../context/UserContext";
-import { useNavigate } from "react-router-dom";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from "react-router-dom";
 import ErrorsDisplay from "./ErrorsDisplay";
 
 
@@ -54,32 +52,11 @@ const UpdateCourse = () => {
 
     // This function is triggered when the user clicks the "Update Course" button.
     const handleUpdate = async (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
 
-/*        // Checks if all the required fields are filled in.
-        // If not, it adds the appropriate error messages to the errors state variable and stops execution. 
-        const errors = [];
-        if (!course.title) {
-            errors.push('Please provide a value for "Title"');
-        }
-    
-        if (!course.description) {
-            errors.push('Please provide a value for "Description"');
-        }
-        if (!course.estimatedTime) {
-            errors.push('Please provide a value for "Estimated Time"');
-        }
-        if (!course.materialsNeeded) {
-            errors.push('Please provide a value for "Materials Needed"');
-        }
-    
-        if (errors.length > 0) {
-            // If there are errors, we stop the execution of the function here and set the errors to state
-            setErrors(errors);
-            return;
-        }*/
-        const username = authUser.username; 
-        const password = authUser.password; 
+        // Server identifies the user to make sure they are the owner of the course before updating.
+        const username = authUser.username;
+        const password = authUser.password;
         const encodedCredentials = btoa(`${username}:${password}`);
         // sends a PUT request to the API to update the course detail.
         const response = await fetch(`http://localhost:5000/api/courses/${id}`, {
@@ -91,28 +68,28 @@ const UpdateCourse = () => {
             body: JSON.stringify(course)
         });
         try {
-        if (response.status === 204) {
-            navigate(`/courses/${id}`);
-        } else if (response.status === 400) {
-            const data = await response.json();
-            setErrors(data.errors);
-            console.log(data);
+            if (response.status === 204) {
+                navigate(`/courses/${id}`);
+            } else if (response.status === 400) {
+                const data = await response.json();
+                setErrors(data.errors);
+                console.log(data);
+            }
+        } catch (error) {
+            console.error(error);
+            setErrors([error.message]); // Set the errors state to the error message
         }
-    } catch (error) {
-        console.error(error);
-        setErrors([error.message]); // Set the errors state to the error message
     }
-}
 
 
 
     return (
         <main>
-            <div class="wrap">
+            <div className="wrap">
                 <h2>Update Course</h2>
                 <ErrorsDisplay errors={errors} />
                 <form>
-                    <div class="main--flex">
+                    <div className="main--flex">
                         <div>
                             <label htmlFor="title">Course Title</label>
                             <input id="title" name="title" type="text" onChange={handleInputChange} value={course.title} />

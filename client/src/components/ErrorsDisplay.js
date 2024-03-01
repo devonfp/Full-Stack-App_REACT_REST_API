@@ -17,7 +17,7 @@ const ErrorsDisplay = ({ errors }) => {
         );
     }
     return errorsDisplay;
-    
+
 }
 export default ErrorsDisplay;
 

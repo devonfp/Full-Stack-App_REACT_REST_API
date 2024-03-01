@@ -3,14 +3,16 @@ import { createContext, useState } from "react";
 import Cookies from "js-cookie"; // Cookie is a JavaScript library that makes it easy for us to create, read, and erase cookies. 
 import { api } from "../utils/apiHelper";
 
-const UserContext = createContext(null); // We create a new context object and export it. We'll use this context object to share data that can be considered "global" for a tree of React components, such as the current authenticated user and the functions that allow them to interact with the REST API.
+const UserContext = createContext(null); // We create a new context object and export it.
+// We'll use this context object to share data that can be considered "global" for a tree of React components,
+// such as the current authenticated user and the functions that allow them to interact with the REST API.
 
-// We create a new React component that will be used as a provider for the context object.
+// This is a custom hook that allows us to share state and functionality throughout our React components.
 export const UserProvider = (props) => {
     const cookie = Cookies.get("authenticatedUser")
     const [authUser, setAuthUser] = useState(cookie ? JSON.parse(cookie) : null);
 
-    // We create a new React component that will be used as a provider for the context object.
+    // This function signs the user in to the application.
     const signIn = async (credentials) => {
         const response = await api("/users", "GET", null, credentials);
         if (response.status === 200) {
@@ -25,30 +27,8 @@ export const UserProvider = (props) => {
             throw new Error("Something went wrong");
         }
     }
-/*
-    // Code from Github Copilot
-    const signUp = async (user) => {
-        const response = await api('/users', 'POST', user);
-        if (response.status === 201) {
-            return true;
-        } else if (response.status === 400) {
-            const data = await response.json();
-            setErrors(data.errors);
-        } 
-    }*/
 
-    /*const createCourse = async (course, username, password) => {
-        const response = await api('/courses', 'POST', course, { username, password });
-        console.log(response)  
-        if (response.status === 201) {
-            return response.json(); 
-    } else {
-            console.error(`Error status: ${response.status}`);
-            console.error(`Response body: ${await response.text()}`);
-        }
-    }*/
-
-    // We create a new React component that will be used as a provider for the context object.
+    // This function signs the user out of the application.
     const signOut = () => {
         setAuthUser(null);
         Cookies.remove("authenticatedUser");
@@ -60,10 +40,8 @@ export const UserProvider = (props) => {
             authUser,
             actions: {
                 signIn,
-                //signUp,
                 signOut,
-/*          createCourse
-*/        }
+            }
         }}>
             {props.children}
         </UserContext.Provider>

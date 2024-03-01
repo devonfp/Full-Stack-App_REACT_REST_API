@@ -1,6 +1,5 @@
 // Necessary dependencies
-import React, { useState } from "react";
-import { useContext } from "react";
+import React, { useState, useContext } from "react";
 import UserContext from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import ErrorsDisplay from "./ErrorsDisplay";
@@ -11,7 +10,6 @@ import { api } from "../utils/apiHelper";
 // Handles input changes
 // Renders the entire page
 const CreateCourse = () => {
-    // actions gives us access to the createCourse function from the UserContext
     const { authUser } = useContext(UserContext);
     const username = authUser.username;
     const password = authUser.password;
@@ -33,31 +31,6 @@ const CreateCourse = () => {
     // This function is triggered when the user clicks the "Create Course" button.
     const handleSubmit = async (e) => {
         e.preventDefault(); // prevents the default form submission behavior
-
-        /*
-                // Validation errors
-                const errors = [];
-                
-                if (!course.title) {
-                    errors.push('Please provide a value for "Title"');
-                }
-        
-                if (!course.description) {
-                    errors.push('Please provide a value for "Description"');
-                }
-                if (!course.estimatedTime) {
-                    errors.push('Please provide a value for "Estimated Time"');
-                }
-                if (!course.materialsNeeded) {
-                    errors.push('Please provide a value for "Materials Needed"');
-                }
-        
-                if (errors.length > 0) {
-                    // If there are errors, we stop the execution of the function here and set the errors to state
-                    setErrors(errors);
-                    return;
-                }*/
-
 
 
         // This try/catch block calls the API to create a new course.

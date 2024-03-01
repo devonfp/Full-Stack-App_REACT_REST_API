@@ -20,23 +20,6 @@ const UserSignIn = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-      // Validation errors. From Github Copilot
-/*      const errors = [];
-
-      if (!email) {
-          errors.push('Please provide an email');
-      }
-
-      if (!password) {
-          errors.push('Please provide a password');
-      }
-  
-      if (errors.length > 0) {
-          // If there are errors, we stop the execution of the function here and set the errors to state
-          setErrors(errors);
-          return;
-      }*/
-
     // Gets the previous location the user was trying to access before they were redirected to the sign-in page   
     let from = '/';
     if (location.state) {
@@ -49,24 +32,7 @@ const UserSignIn = () => {
       password,
     };
 
-
-    // If the sign-in is successful, it navigates to the page the user was at previously.
-    // Created with Copilot
- /*   try {
-      const user = await actions.signIn(credentials);
-      if (user === null) {
-        errors.push('User not found. Please try again.');
-        setErrors(errors);
-        return;
-      } else {
-        navigate(from);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-
-  }*/
-
+    // Calls the signIn function from the UserContext to sign in the user.
     try {
       const user = await actions.signIn(credentials);
       if (user) {
