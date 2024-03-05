@@ -43,7 +43,7 @@ function CourseDetail() {
     const encodedCredentials = btoa(`${username}:${password}`);
 
     // Server deletes the course and redirectes to home screen.
-    const response = await fetch(`http://localhost:5000/api/courses/${id}`, {
+    const response = await fetch(`https://full-stack-appreactrestapi-production.up.railway.app/api/courses/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
