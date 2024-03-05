@@ -4,7 +4,7 @@ export const api = (
     body = null,
     credentials = null
 ) => {
-    const url = 'http://localhost:5000/api' + path;
+    const url = 'https://full-stack-appreactrestapi-production.up.railway.app/api' + path;
 
     const options = {
         method,

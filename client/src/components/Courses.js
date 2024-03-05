@@ -8,7 +8,7 @@ function Courses() {
 
     // We use the useEffect hook to fetch the courses from the API.
     useEffect(() => {
-        fetch('http://localhost:5000/api/courses')
+        fetch('https://full-stack-appreactrestapi-production.up.railway.app/api/courses')
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: {response.status}`);

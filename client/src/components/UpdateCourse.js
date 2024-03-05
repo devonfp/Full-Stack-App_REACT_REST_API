@@ -59,7 +59,7 @@ const UpdateCourse = () => {
         const password = authUser.password;
         const encodedCredentials = btoa(`${username}:${password}`);
         // sends a PUT request to the API to update the course detail.
-        const response = await fetch(`http://localhost:5000/api/courses/${id}`, {
+        const response = await fetch(`https://full-stack-appreactrestapi-production.up.railway.app/api/courses/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
